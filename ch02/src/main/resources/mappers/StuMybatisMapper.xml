@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.nf.ch05.Test.ch02.dao.StuDao">
+    <!-- 使用uuid，有两种方式（uuid是算法标识符，数据库生成，mysql生成）
+          第一种是利用mysql的uuid函数生成一个uuid然后插入主键列 -->
+    <insert id="save" parameterType="student">
+        <!-- keyProperty对应实体的主键字段，争议生成uuid后会将这个唯一标识符保存到实体字段中
+             resultType指定uuid函数返回主键类型，对应实体主键字段的类型
+             order指定主键是在执行sql之前还是之后生成-->
+        <selectKey keyProperty="stuId" resultType="java.lang.String" order="BEFORE">
+        <!-- 调用uuid函数生成一个值存入到你设置的实体中,方便下面插入到主键中， -->
+        <!-- uuid没有上线因为是字符串，但是占用容量大，数据量大才用，不能跨数据库（要用就在java中生成uuid） -->
+            select uuid()
+        </selectKey>
+        insert into stu_info(stu_id,stu_name) values (#{stuId},#{stuName})
+    </insert>
+
+    <!-- 另一种方法在程序中生成uuid然后又直接插入数据库 -->
+    <insert id="save2" parameterType="student">
+         insert into stu_info(stu_id,stu_name) values (#{stuId},#{stuName})
+    </insert>
+</mapper>

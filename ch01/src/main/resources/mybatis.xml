@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!-- mybatis的核心配置文件，配置相关的数据源链接以及连接池信息，实体别名映射，插件配置等等。 -->
+<configuration>
+    <!-- 指定实体类的别名，方便mapper映射配置文件中引用 -->
+    <typeAliases>
+        <!-- 1.typeAlias根据指定的实体类定义一个alias的别名 -->
+        <!-- 直接用别名找到这个实体，方便使用 -->
+        <!-- 缺点就是每一个实体都要定义别名 -->
+        <!--<typeAlias type="Users" alias="user"/>-->
+        <!-- 2.可以使用package来给实体包下的所有实体类自动创建别名，自动创建的别名就是类名，并且将首字母变为小写 -->
+        <package name="edu.nf.ch01.entity"/>
+    </typeAliases>
+
+    <!-- mybatis环境配置，default指定默认的数据源，对应的是encironment的 -->
+    <environments default="mysql">
+        <!-- 配置mysql的数据源环境 -->
+        <environment id="mysql">
+            <!-- 配置事务管理器，有两个值(jdbc和MANAGED)
+                JDBC:mybatis使用本地Connection的jdbc事务
+                MANAGED:表示mybatis不参与事务的管理，由第三方容器来管理事务-->
+            <transactionManager type="JDBC"/>
+            <!--  配置数据源，type指定获取链接的方式
+                POOLED:表示使用mybatis自带的链接池
+                UNPOOLED:不使用接池，每次都从数据库获取新的链接
+             -->
+            <dataSource type="POOLED">
+                <!-- 链接数据库的驱动 -->
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <!-- 链接url -->
+                <property name="url" value="jdbc:mysql://localhost:3306/mybatis_study?useSSL=false&amp;useUnicode=true&amp;characterEncoding=utf-8"/>
+                <!-- 用户名 -->
+                <property name="username" value="root"/>
+                <!-- 密码 -->
+                <property name="password" value="root"/>
+            </dataSource>
+        </environment>
+        <!-- sqlserver数据源环境 -->
+    </environments>
+
+    <!-- 添加mapper映射配置文件的路径，不然代理对象就找不到路径和mysql的访问路径 -->
+    <mappers>
+        <mapper resource="mappers/UsersMapper.xml"></mapper>
+    </mappers>
+</configuration>

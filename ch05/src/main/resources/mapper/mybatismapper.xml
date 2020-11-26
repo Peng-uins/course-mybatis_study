@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.nf.ch05.dao.UserDao">
+
+    <resultMap id="userMap" type="users">
+        <id property="uid" column="u_id"/>
+        <result property="userName" column="u_name"/>
+    </resultMap>
+
+    <!-- 统计查询,返回类型是int类型 -->
+    <select id="count" resultType="int">
+        select  count(*) from user_info
+    </select>
+
+    <!-- 模糊查询 -->
+    <select id="like" parameterType="java.lang.String" resultMap="userMap">
+        <!-- 后模糊查询，双引号加百分号放在括号外面，但是不能放在前面模糊查询，尽量使用后模糊 -->
+        select u_id,u_name from user_info where u_name like #{userName}"%"
+    </select>
+</mapper>
