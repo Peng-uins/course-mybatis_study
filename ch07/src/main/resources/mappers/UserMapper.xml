@@ -18,7 +18,7 @@
     <insert id="addBatch" parameterType="list">
         insert into user_info2(u_name,age,tel) values
         <foreach collection="list" item="user" separator=",">
-            (#{user.userName},#{user.age},#{user.tel})9
+            (#{user.userName},#{user.age},#{user.tel})
         </foreach>
     </insert>
 
